@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -95,14 +95,17 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 10),
 
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const DataScreen();
-                    },
-                  ),
-                );
+              onPressed: () async {
+                // nevagação padrão
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (context) {
+                //       return const DataScreen();
+                //     },
+                //   ),
+                // );
+                final result = await Get.to(() => DataScreen());
+                print(result);
               },
               child: const Text('Tela de dados'),
             ),
@@ -114,7 +117,7 @@ class HomePage extends StatelessWidget {
 }
 
 class DataScreen extends GetView<UserController> {
-  const DataScreen({
+  DataScreen({
     Key? key,
   }) : super(key: key);
 
@@ -122,7 +125,7 @@ class DataScreen extends GetView<UserController> {
         fontSize: 20,
         fontWeight: FontWeight.w700,
       );
-
+  final nameController = TextEditingController();
   // final UserController userController = Get.find<UserController>();
   @override
   Widget build(BuildContext context) {
@@ -132,7 +135,7 @@ class DataScreen extends GetView<UserController> {
       ),
       body: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
             // Apresentação do nome
             Obx(
@@ -169,6 +172,26 @@ class DataScreen extends GetView<UserController> {
             //   'idade: ',
             //   style: commonStyle(),
             // ),
+            Expanded(
+              child: TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Valor de retorno',
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: ElevatedButton(
+                  child: const Text("Voltar"),
+                  onPressed: () {
+                    String v = nameController.text;
+                    Get.back(result: v);
+                  },
+                )),
+              ],
+            )
           ],
         ),
       ),
