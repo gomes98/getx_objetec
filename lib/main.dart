@@ -123,7 +123,7 @@ class DataScreen extends StatelessWidget {
         fontWeight: FontWeight.w700,
       );
 
-  final UserController userController = Get.find<UserController>();
+  // final UserController userController = Get.find<UserController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,19 +135,35 @@ class DataScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             // Apresentação do nome
-            Obx(
-              () => Text(
-                'Nome: ${userController.user.value.name}',
-                style: commonStyle(),
-              ),
+            // Obx(
+            //   () => Text(
+            //     'Nome: ${userController.user.value.name}',
+            //     style: commonStyle(),
+            //   ),
+            // ),
+            // // Apresentação da idade
+            // Obx(
+            //   () => Text(
+            //     'idade: ${userController.user.value.age}',
+            //     style: commonStyle(),
+            //   ),
+            // ),
+            GetX<UserController>(
+              builder: (controller) {
+                return Text(
+                  'Nome: ${controller.user.value.name}',
+                  style: commonStyle(),
+                );
+              },
             ),
-            // Apresentação da idade
-            Obx(
-              () => Text(
-                'idade: ${userController.user.value.age}',
-                style: commonStyle(),
-              ),
-            ),
+            GetX<UserController>(
+              builder: (controller) {
+                return Text(
+                  'idade: ${controller.user.value.age}',
+                  style: commonStyle(),
+                );
+              },
+            )
 
             // Text(
             //   'idade: ',
