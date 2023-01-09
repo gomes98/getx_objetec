@@ -3,6 +3,10 @@ import 'package:get/get.dart';
 import 'package:getx/user_controller.dart';
 
 void main() {
+  // insere instantaneo
+  // Get.put<UserController>(UserController());
+  // insere somente quando for solicitado
+  Get.lazyPut<UserController>(() => UserController());
   runApp(const MyApp());
 }
 
@@ -27,7 +31,7 @@ class HomePage extends StatelessWidget {
   final nameController = TextEditingController();
   final ageController = TextEditingController();
 
-  final userController = UserController();
+  final userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +99,7 @@ class HomePage extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return DataScreen(
-                        userController: userController,
-                      );
+                      return DataScreen();
                     },
                   ),
                 );
@@ -112,14 +114,16 @@ class HomePage extends StatelessWidget {
 }
 
 class DataScreen extends StatelessWidget {
-  final UserController userController;
-  const DataScreen({Key? key, required this.userController}) : super(key: key);
+  DataScreen({
+    Key? key,
+  }) : super(key: key);
 
   TextStyle commonStyle() => const TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.w700,
       );
 
+  final UserController userController = Get.find<UserController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
